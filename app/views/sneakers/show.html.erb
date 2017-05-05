@@ -2,7 +2,7 @@
 
 <p>
   <strong>Brand:</strong>
-  <%= @sneaker.brand_id %>
+  <%= Brand.find(@sneaker.brand_id).name %>
 </p>
 
 <p>
@@ -19,6 +19,11 @@
   <strong>Price:</strong>
   <%= @sneaker.price %>
 </p>
+
+<div>  
+  <%= image_tag @sneaker.image %>
+</div>
+
 
 <%= link_to 'Edit', edit_sneaker_path(@sneaker) %> |
 <%= link_to 'Back', sneakers_path %>
