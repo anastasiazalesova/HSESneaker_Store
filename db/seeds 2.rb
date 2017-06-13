@@ -6,59 +6,60 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-
 Rake::Task['db:drop'].invoke
 Rake::Task['db:create'].invoke
 Rake::Task['db:migrate'].invoke
 
-
 def random_brand_id
   Brand.offset(rand(Brand.count)).first.id
+  # brands_quantity = Brand.count
+  # brands_random_offset = rand(brands_quantity)
+  # random_brand = Brand.offset(brands_random_offset).first
+  # random_brand_id = random_brand.id
+  # random_brand_id
 end
 
 def upload_fake_image
   uploader = ImageUploader.new(Sneaker.new, :image)
   uploader.cache!(File.open(Dir.glob(File.join(Rails.root, 'lib/tasks/sneakers', '*')).sample))
   uploader
-
 end
 
 Brand.create([
-    {
-      name: 'Nike'
-    },{
-      name: 'Adidas'
-    }, {
-      name: 'Y-3'
-    }, {
-      name: 'Puma'
-    }, {
-      name: 'Reebok'
-    }
-  ])
+  {
+    name: 'Nike',
+    logo: ''
+  }, {
+    name: 'Adidas',
+    logo: ''
+  }, {
+    name: 'Reebok',
+    logo: ''
+  }, {
+    name: 'New Balance',
+    logo: ''
+  }, {
+    name: 'Puma',
+    logo: ''
+  }
+])
 
+@sneakers_models = ['Munchen Core Black/White/Gum','original Black/White/Gum']
 
-  @sneaker_models = ['Force', 'Stan', 'Tool']
-
-  @sneaker_sex= ['Male', 'Female']
-
-
-  def sneaker_price
-    rand(5000..19685)
-  end
-
+def sneaker_price
+  rand(5000..20000)
+end
 
 def create_sneaker
   Sneaker.create(
-      brand_id:  random_brand_id,
-      image:     upload_fake_image,
-      model:     @sneaker_models.sample,
-      price:     sneaker_price,
-      sex:       @sneaker_sex.sample
+    brand_id: random_brand_id,
+    model: @sneaker_models.sample,
+    sex: 'male',
+    price: sneaker_price,
+    image: upload_fake_image
   )
 end
 
-100.times do
-  sneaker = create_sneaker
-  puts "Sneaker #{sneaker.id} created"
+20.times do
+  create_sneaker
 end
